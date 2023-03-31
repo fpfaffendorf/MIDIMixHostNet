@@ -1,0 +1,922 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        "Jacobi.Vst.Host.Interop"
+    </assembly>
+    <members>
+        <member name="P:Jacobi.Vst.Host.Interop.VstAudioBufferManager.BufferSize">
+            <summary>Gets the size of a single buffer.</summary>
+        </member>
+        <member name="P:Jacobi.Vst.Host.Interop.VstAudioBufferManager.BufferCount">
+            <summary>Gets the number of buffers.</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstAudioBufferManager.ClearAllBuffers">
+            <summary>Clears all buffers this instance manages.</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstAudioBufferManager.ClearBuffer(Jacobi.Vst.Core.VstAudioBuffer)">
+            <summary>Clears (set all values to 0.0) a single buffer.</summary>
+            <param name="buffer">The buffer to be cleared. Must not be null.</param>
+        </member>
+        <member name="P:Jacobi.Vst.Host.Interop.VstAudioBufferManager.Buffers">
+            <summary>Retrieves the buffers objects, one for each buffer.</summary>
+            <returns>Returns an enumerable of <see cref="T:Jacobi.Vst.Core.VstAudioBuffer" /> instances.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstAudioBufferManager.Dispose">
+            <summary>Disposes the instance and free's the unmanaged memory.</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstAudioBufferManager.#ctor(System.Int32,System.Int32)">
+            <summary>Constructs a new instance for the specified number and size of buffers.</summary>
+            <param name="bufferCount">The number of buffers.</param>
+            <param name="bufferSize">The size of a single buffer.</param>
+        </member>
+        <member name="T:Jacobi.Vst.Host.Interop.VstAudioBufferManager">
+            <summary>
+The VstAudioBufferManager class manages one continues block of unmanaged memory
+to service a number of audio buffers.
+</summary>
+            <remarks>The class is instantiated specifying the number and size of buffers that 
+can be accessed using the <see cref="P:Jacobi.Vst.Host.Interop.VstAudioBufferManager.Buffers" /> property. The life time of the 
+unmanaged memory that backs up the buffers is coupled to the life time of the
+VstAudioBufferManager instance. Calling the <see cref="M:Jacobi.Vst.Host.Interop.VstAudioBufferManager.Dispose" /> method will free
+the unmanaged memory.</remarks>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstUnmanagedPluginContext.Uninitialize">
+            <summary>Cleans up unmanaged resources.</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstUnmanagedPluginContext.Initialize(System.String)">
+            <summary>
+Initializes the PluginContext instance with the plugin pointed to by the <paramref name="pluginPath" />.
+</summary>
+            <param name="pluginPath">An absolute path to the plugin dll (that contains the exported 
+'VSTPluginMain' function). Must not be null or empty.</param>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstUnmanagedPluginContext.#ctor(Jacobi.Vst.Core.Host.IVstHostCommandStub)">
+            <summary>
+Constructs a new uninitialized instance using the <paramref name="hostCmdStub" />.
+</summary>
+            <param name="hostCmdStub">An implementation of the host command stub. Must not be null.</param>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstUnmanagedPluginContext.CreateInternal(System.String,Jacobi.Vst.Core.Host.IVstHostCommandStub)">
+            <summary>
+Constructs a new uninitialized instance using the <paramref name="hostCmdStub" />.
+</summary>
+            <param name="pluginPath">An absolute path the the plugin dll. Must not be null or empty.</param>
+            <param name="hostCmdStub">An implementation of the host command stub. Must not be null.</param>
+        </member>
+        <member name="P:Jacobi.Vst.Host.Interop.VstUnmanagedPluginContext.HostCommandProxy">
+            <summary>Gets a reference to the host command proxy.</summary>
+            <remarks>Used to dispatch incoming requests from the plugin.</remarks>
+        </member>
+        <member name="P:Jacobi.Vst.Host.Interop.VstUnmanagedPluginContext.LoadingPlugin">
+            <summary>Gets or sets the plugin context of the plugin that is currently loading.</summary>
+            <remarks>Only set during loading of plugin (Create)</remarks>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstUnmanagedPluginContext.ShellCreate(Jacobi.Vst.Core.Host.IVstHostCommandStub)">
+            <summary>
+Creates a context for s sub-plugin from an *unmanaged* shell plugin (this).
+</summary>
+            <param name="hostCmdStub">A reference to a host supplied implementation of the host command stub. Must not be null.</param>
+            <remarks>The <paramref name="hostCmdStub" />'s GetCurrentPluginID() method MUST return one of the unique plugin IDs that were 
+retrieved by calling the <see cref="M:Jacobi.Vst.Core.IVstPluginCommands23.GetNextPlugin(System.String@)" /> method.</remarks>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstUnmanagedPluginContext.AcceptPluginInfoData(System.Boolean)">
+            <summary>
+Copies the new values from the unmanaged Vst2Plugin structure to the <see cref="P:Jacobi.Vst.Host.Interop.VstPluginContext.PluginInfo" /> property.
+</summary>
+            <param name="raiseEvents">When true the <see cref="E:Jacobi.Vst.Host.Interop.VstPluginContext.PropertyChanged" /> event will be raised for each property that has changed.</param>
+            <remarks>All property names will be prefixed with 'PluginInfo.' to indicate the path to the property.</remarks>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstUnmanagedPluginContext.Finalize">
+            <summary>
+Disposes unmanaged resources.
+</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstUnmanagedPluginContext.Dispose">
+            <summary>
+Disposes managed resources and calls the finalizer.
+</summary>
+        </member>
+        <member name="T:Jacobi.Vst.Host.Interop.VstUnmanagedPluginContext">
+            <summary>
+Implements a PluginContext for an unmanaged Plugin, marshalling the calls between the Context and the Plugin.
+</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandStub.#ctor(Vst2Plugin*)">
+            <summary>Constructs a new instance based on an <b>Vst2Plugin</b> structure.</summary>
+        </member>
+        <member name="P:Jacobi.Vst.Host.Interop.VstPluginCommandStub.PluginContext">
+            <summary>
+Gets or sets the Plugin Context for this implementation.
+</summary>
+        </member>
+        <member name="T:Jacobi.Vst.Host.Interop.VstPluginCommandStub">
+            <summary>
+The VstPluginCommandStub class implements the <see cref="T:Jacobi.Vst.Core.Host.IVstPluginCommandStub" />
+interface that is called by the host to access the Plugin.
+</summary>
+            <remarks>
+The class also implements the <see cref="T:Jacobi.Vst.Core.Legacy.IVstPluginCommandsLegacy20" /> 
+interface for legacy method support.
+</remarks>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.#ctor(Vst2Plugin*)">
+            <summary>Constructs a new instance based on an <b>Vst2Plugin</b> structure.</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.KeysRequired">
+            <summary>
+Indicates if keys are required by the plugin.
+</summary>
+            <returns>Returns true if keys are required.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.SetViewPosition(System.Drawing.Point@)">
+            <summary>
+Moves the view to a new position inside the window.
+</summary>
+            <param name="position">The x and y coordinates.</param>
+            <returns>Returns true if the call was successful.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetIcon">
+            <summary>
+Retrieves an iconic representation of the plugin.
+</summary>
+            <returns>Returns null when not supported.</returns>
+            <remarks>The VST specs are not final for this method. Not supported.</remarks>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.Idle">
+            <summary>
+Called by the host to allow some light idle processing by the plugin.
+</summary>
+            <returns>Returns True when subsequent Idle calls should follow. 
+False is returned when no further Idle processing is required.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetErrorText">
+            <summary>
+Retrieves an error text from the plugin.
+</summary>
+            <returns>Returns the error text.</returns>
+            <remarks>The length of the text must not exceed 256 characters.</remarks>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.SetBlockSizeAndSampleRate(System.Int32,System.Single)">
+            <summary>
+Assigns a new block size and sample rate value to the plugin.
+</summary>
+            <param name="blockSize">The number of samples per frame (cycle).</param>
+            <param name="sampleRate">The new sample rate.</param>
+            <returns>Returns true if the call was successful.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetDestinationBuffer">
+            <summary>
+For external DSP.
+</summary>
+            <returns>Returns the destination audio buffer.</returns>
+            <remarks>The <see cref="T:Jacobi.Vst.Core.Legacy.VstPluginLegacyFlags" />.ExtHasBuffer 
+must be set in order for this method to be called.</remarks>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetCurrentPosition">
+            <summary>
+For external DSP.
+</summary>
+            <returns>Returns the current position.</returns>
+            <remarks>The <see cref="T:Jacobi.Vst.Core.Legacy.VstPluginLegacyFlags" />.ExtIsAsync 
+must be set in order for this method to be called.</remarks>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.ConnectOutput(System.Int32,System.Boolean)">
+            <summary>
+Notifies the plugin of the fact that an output pin was dis/connected.
+</summary>
+            <param name="outputIndex">A zero-based index into the output connection collection.</param>
+            <param name="connected">Indicates if the pin was connected (True) or disconnected (False).</param>
+            <returns>Returns true if the call was successful.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.ConnectInput(System.Int32,System.Boolean)">
+            <summary>
+Notifies the plugin of the fact that an input pin was dis/connected.
+</summary>
+            <param name="inputIndex">A zero-based index into the input connection collection.</param>
+            <param name="connected">Indicates if the pin was connected (True) or disconnected (False).</param>
+            <returns>Returns true if the call was successful.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.CopyCurrentProgramTo(System.Int32)">
+            <summary>
+Copy the current program to the program at <paramref name="programIndex" />.
+</summary>
+            <param name="programIndex">A zero-based index into the program collection.</param>
+            <returns>Returns true if the call was successful.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetProgramCategoriesCount">
+            <summary>
+Retrieves the number of program categories.
+</summary>
+            <returns>Returns the number of program categories.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.Identify">
+            <summary>
+Returns an identifaction code.
+</summary>
+            <returns>Returns 'NvEf' as an integer.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.EditorSleep">
+            <summary>
+The window that hosts the plugin editor is put in the background.
+</summary>
+            <returns>Returns true if the call was successful.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.EditorTop">
+            <summary>
+The window that hosts the plugin editor is put on top of other windows.
+</summary>
+            <returns>Returns true if the call was successful.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.EditorKey(System.Int32)">
+            <summary>
+Called when a key stroke occurs in the editor.
+</summary>
+            <param name="keycode">The key code value.</param>
+            <returns>Returns true if the call was successful.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetVu">
+            <summary>
+Called if the VstPluginLegacyInfo.LegacyFlags has the "HasClip" or "HasVu" flags set.
+</summary>
+            <returns>Returns the current Vu value.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.ProcessAcc(Jacobi.Vst.Core.VstAudioBuffer[],Jacobi.Vst.Core.VstAudioBuffer[])">
+            <summary>
+Processes audio in an accumulating fashion.
+</summary>
+            <param name="inputs">Audio input buffers. Must not be null.</param>
+            <param name="outputs">Audio output buffers. Must not be null.</param>
+        </member>
+        <member name="P:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.PluginContext">
+            <summary>
+Gets or sets the Plugin Context for this implementation.
+</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetNumberOfMidiOutputChannels">
+            <summary>
+Called by the host to retrieve the number of Midi Out channels the plugin supports.
+</summary>
+            <returns>Returns the number of Midi Out channels, or 0 (zero) if not supported.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetNumberOfMidiInputChannels">
+            <summary>
+Called by the host to retrieve the number of Midi In channels the plugin supports.
+</summary>
+            <returns>Returns the number of Midi In channels, or 0 (zero) if not supported.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.SetProcessPrecision(Jacobi.Vst.Core.VstProcessPrecision)">
+            <summary>
+Called by the host query inform the plugin on the precision of audio processing it supports.
+</summary>
+            <param name="precision">An indication of either 32 bit or 64 bit samples.</param>
+            <returns>Returns true when the requested <paramref name="precision" /> is supported.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.BeginLoadProgram(Jacobi.Vst.Core.VstPatchChunkInfo)">
+            <summary>
+Called by the host to query the plugin that supports persistence if the chunk can be read.
+</summary>
+            <param name="chunkInfo">Must not be null.</param>
+            <returns>Returns <see cref="T:Jacobi.Vst.Core.VstCanDoResult" /><b>.Yes</b> if the plugin can read the data.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.BeginLoadBank(Jacobi.Vst.Core.VstPatchChunkInfo)">
+            <summary>
+Called by the host to query the plugin that supports persistence if the chunk can be read.
+</summary>
+            <param name="chunkInfo">Must not be null.</param>
+            <returns>Returns <see cref="T:Jacobi.Vst.Core.VstCanDoResult" /><b>.Yes</b> if the plugin can read the data.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.SetPanLaw(Jacobi.Vst.Core.VstPanLaw,System.Single)">
+            <summary>
+Informs the plugin of the pan algorithm to use.
+</summary>
+            <param name="type">The pan algorithm type.</param>
+            <param name="gain">A gain factor.</param>
+            <returns>Returns false when not implemented.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.StopProcess">
+            <summary>
+Called just after the last call to Process is made.
+</summary>
+            <returns>It is unclear what this return value represents.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.StartProcess">
+            <summary>
+Called just before the first call to Process is made.
+</summary>
+            <returns>It is unclear what this return value represents.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetNextPlugin(System.String@)">
+            <summary>
+Enumerate the plugins contained in the Shell plugin.
+</summary>
+            <param name="name">Filled with the name of the next plugin.</param>
+            <returns>Returns the unique plugin Id.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetSpeakerArrangement(Jacobi.Vst.Core.VstSpeakerArrangement@,Jacobi.Vst.Core.VstSpeakerArrangement@)">
+            <summary>
+Returns the speaker arrangements for the input and output of the plugin.
+</summary>
+            <param name="input">Filled with the speaker arrangement for the plugin inputs.</param>
+            <param name="output">Filled with the speaker arrangement for the plugin outputs.</param>
+            <returns>Returns false when not implemented.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.EndSetProgram">
+            <summary>
+Called by the host just after a new Program is set.
+</summary>
+            <returns>Returns false when not implemented.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.BeginSetProgram">
+            <summary>
+Called by the host just before a new Program is set.
+</summary>
+            <returns>Returns false when not implemented.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetMidiKeyName(Jacobi.Vst.Core.VstMidiKeyName,System.Int32)">
+            <summary>
+Retrieves information about a Midi Key (or note).
+</summary>
+            <param name="midiKeyName">Must not be null.</param>
+            <param name="channel">The zero-base Midi channel.</param>
+            <returns>Returns true when the <paramref name="midiKeyName" />.Name was filled.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.HasMidiProgramsChanged(System.Int32)">
+            <summary>
+Indicates if the program for the specified Midi <paramref name="channel" /> has changed.
+</summary>
+            <param name="channel">The zero-base Midi channel.</param>
+            <returns>Returns true if the Midi Program has changed, otherwise false is returned.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetMidiProgramCategory(Jacobi.Vst.Core.VstMidiProgramCategory,System.Int32)">
+            <summary>
+Retrieves information about a Midi Program Category.
+</summary>
+            <param name="midiCat">Must not be null.</param>
+            <param name="channel">The zero-based Midi channel.</param>
+            <returns>Returns the total number of Midi program categories or 0 if not implemented.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetCurrentMidiProgramName(Jacobi.Vst.Core.VstMidiProgramName,System.Int32)">
+            <summary>
+Retrieves information about the current midi program for a specific Midi <paramref name="channel" />.
+</summary>
+            <param name="midiProgram">Must not be null.</param>
+            <param name="channel">The zero-based Midi channel.</param>
+            <returns>Returns the number of implemented Midi programs or 0 if not implemented.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetMidiProgramName(Jacobi.Vst.Core.VstMidiProgramName,System.Int32)">
+            <summary>
+Retrieves information about a midi program for a specific Midi <paramref name="channel" />.
+</summary>
+            <param name="midiProgram">Must not be null.</param>
+            <param name="channel">The zero-based Midi channel.</param>
+            <returns>Returns the number of implemented Midi programs or 0 if not implemented.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.SetEditorKnobMode(Jacobi.Vst.Core.VstKnobMode)">
+            <summary>
+Called by the host to set the mode for turning knobs.
+</summary>
+            <param name="mode">The mode to use for turning knobs.</param>
+            <returns>Returns false when not implemented.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.EditorKeyUp(System.Byte,Jacobi.Vst.Core.VstVirtualKey,Jacobi.Vst.Core.VstModifierKeys)">
+            <summary>
+Called by the host when the user releases a key.
+</summary>
+            <param name="ascii">The identification of the key.</param>
+            <param name="virtualKey">Virtual key information.</param>
+            <param name="modifers">Additional keys pressed.</param>
+            <returns>Returns false when not implemented.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.EditorKeyDown(System.Byte,Jacobi.Vst.Core.VstVirtualKey,Jacobi.Vst.Core.VstModifierKeys)">
+            <summary>
+Called by the host when the user presses a key.
+</summary>
+            <param name="ascii">The identification of the key.</param>
+            <param name="virtualKey">Virtual key information.</param>
+            <param name="modifers">Additional keys pressed.</param>
+            <returns>Returns false when not implemented.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetVstVersion">
+            <summary>
+Called by the host to query the plugin what VST version it supports.
+</summary>
+            <returns>Returns 2400 for VST 2.4.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetParameterProperties(System.Int32)">
+            <summary>
+Called by the host to retrieve information about a plugin parameter at <paramref name="index" />.
+</summary>
+            <param name="index">A zero-based index into the plugin parameters.</param>
+            <returns>Returns null if not implemented.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetTailSize">
+            <summary>
+Called by the host to retrieve the number of samples that the plugin outputs after the input has gone silent.
+</summary>
+            <returns>Returns zero if not implemented.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.CanDo(System.String)">
+            <summary>
+Called by the host to query the plugin if a certain behavior or aspect is supported.
+</summary>
+            <param name="cando">The string containing the can-do string, which can be host specific.</param>
+            <returns>Returns an indication if the capability is supported.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetVendorVersion">
+            <summary>
+Called to retrieve the plugin version information.
+</summary>
+            <returns>Returns the Version number.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetProductString">
+            <summary>
+Called to retrieve the plugin product information.
+</summary>
+            <returns>Returns the Product name.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetVendorString">
+            <summary>
+Called to retrieve the plugin vendor information.
+</summary>
+            <returns>Returns the Vendor name.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetEffectName">
+            <summary>
+Called by the host to retrieve the name of plugin.
+</summary>
+            <returns>Returns the name. Must not be null.</returns>
+            <remarks>The plugin name should not exceed 31 characters.</remarks>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.SetBypass(System.Boolean)">
+            <summary>
+Called by the host to bypass plugin processing.
+</summary>
+            <param name="bypass">True to bypass, false to process.</param>
+            <returns>Returns false if not implemented.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.SetSpeakerArrangement(Jacobi.Vst.Core.VstSpeakerArrangement,Jacobi.Vst.Core.VstSpeakerArrangement)">
+            <summary>
+Under Construction
+</summary>
+            <param name="saInput">Must not be null.</param>
+            <param name="saOutput">Must not be null.</param>
+            <returns>Returns false if not implemented.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetCategory">
+            <summary>
+Retrieves a categorization value for the plugin.
+</summary>
+            <returns>Returns the plugin category.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetOutputProperties(System.Int32)">
+            <summary>
+Retrieves the pin properties for the output at <paramref name="index" />.
+</summary>
+            <param name="index">A zero-based index into the plugin outputs.</param>
+            <returns>Returns null if not implemented.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetInputProperties(System.Int32)">
+            <summary>
+Retrieves the pin properties for the input at <paramref name="index" />.
+</summary>
+            <param name="index">A zero-based index into the plugin inputs.</param>
+            <returns>Returns null if not implemented.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetProgramNameIndexed(System.Int32)">
+            <summary>
+Retrieves the name of the program at <paramref name="index" />.
+</summary>
+            <param name="index">The zero-base index into the plugin Programs.</param>
+            <returns>Returns null if not implemented.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.String2Parameter(System.Int32,System.String)">
+            <summary>
+Parses the <paramref name="str" /> value to assign to the parameter at <paramref name="index" />.
+</summary>
+            <param name="index">The zero-base parameter index.</param>
+            <param name="str">The value for the parameter.</param>
+            <returns>Returns true when the parameter was successfully parsed or
+false if not implemented.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.CanParameterBeAutomated(System.Int32)">
+            <summary>
+Called by the host to query the plugin whether the parameter at <paramref name="index" /> can be automated.
+</summary>
+            <param name="index">The zero-based index into the parameters.</param>
+            <returns>Returns true if the parameter can be automated or false if not implemented.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.ProcessEvents(Jacobi.Vst.Core.VstEvent[])">
+            <summary>
+Called by the host when the plugin has specified the <see cref="T:Jacobi.Vst.Core.VstPluginCanDo" /><b>.ReceiveVstMidiEvent</b> flag.
+</summary>
+            <param name="events">The (Midi) events for the current 'block'.</param>
+            <returns>Returns false if not implemented.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.SetChunk(System.Byte[],System.Boolean)">
+            <summary>
+Called by the host to load in a previously serialized program buffer.
+</summary>
+            <param name="data">The buffer provided by the host that contains the program data.</param>
+            <param name="isPreset">True if only the current/active program should be deserialized, 
+otherwise (false) the complete program bank should be deserialized.</param>
+            <returns>Returns the number of bytes read from the <paramref name="data" /> buffer or 
+zero not implemented.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetChunk(System.Boolean)">
+            <summary>
+Called by the host to retrieve a buffer with Program (and Parameter) content.
+</summary>
+            <param name="isPreset">True if only the current/active program should be serialized, 
+otherwise (false) the complete program bank should be serialized.</param>
+            <returns>Returns null when not implemented.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.EditorIdle">
+            <summary>
+Called by the host when the editor is idle.
+</summary>
+            <remarks>Keep your processing short.</remarks>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.EditorClose">
+            <summary>
+Called by the host to close (and destroy) the plugin custom editor.
+</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.EditorOpen(System.IntPtr)">
+            <summary>
+Called by the host to open the plugin custom editor.
+</summary>
+            <param name="hWnd">The handle to the parent window.</param>
+            <returns>Returns false when not implemented.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.EditorGetRect(System.Drawing.Rectangle@)">
+            <summary>
+Called by the host to retrieve the bounding rectangle of the editor.
+</summary>
+            <param name="rect">The rectangle receiving the bounds.</param>
+            <returns>Returns true when the <paramref name="rect" /> was set.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.MainsChanged(System.Boolean)">
+            <summary>
+Called by the host when the users has turned the plugin on or off.
+</summary>
+            <param name="onoff">True when on, false when off.</param>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.SetBlockSize(System.Int32)">
+            <summary>
+Assigns the <paramref name="blockSize" /> to the plugin.
+</summary>
+            <param name="blockSize">The number samples per cycle.</param>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.SetSampleRate(System.Single)">
+            <summary>
+Assigns the <paramref name="sampleRate" /> to the plugin.
+</summary>
+            <param name="sampleRate">The number of audio samples per second.</param>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetParameterName(System.Int32)">
+            <summary>
+Retrieves the name for the parameter at <paramref name="index" />.
+</summary>
+            <param name="index">A zero-based index into the parameter collection.</param>
+            <returns>Can return null or an empty string.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetParameterDisplay(System.Int32)">
+            <summary>
+Retrieves the display value for the parameter at <paramref name="index" />.
+</summary>
+            <param name="index">A zero-based index into the parameter collection.</param>
+            <returns>Can return null or an empty string.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetParameterLabel(System.Int32)">
+            <summary>
+Retrieves the label for the parameter at <paramref name="index" />.
+</summary>
+            <param name="index">A zero-based index into the parameter collection.</param>
+            <returns>Can return null or an empty string.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetProgramName">
+            <summary>
+Retrieves the name of the current/active program.
+</summary>
+            <returns>Can return null or an empty string.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.SetProgramName(System.String)">
+            <summary>
+Assign a new name to the current/active program.
+</summary>
+            <param name="name">The new program name.</param>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetProgram">
+            <summary>
+Retrieve the current program index.
+</summary>
+            <returns>Returns the current program index or 0 as a default.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.SetProgram(System.Int32)">
+            <summary>
+The plugin should activate the Program at <paramref name="programNumber" />.
+</summary>
+            <param name="programNumber">A zero-based program number (index).</param>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.Close">
+            <summary>
+This is the last method the host calls. Dispose your resources.
+</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.Open">
+            <summary>
+This is the first method called by the host right after the assembly is loaded.
+</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.GetParameter(System.Int32)">
+            <summary>
+Called by the host to retrieve the current value of the parameter at <paramref name="index" />.
+</summary>
+            <param name="index">A zero-base index into the parameters collection.</param>
+            <returns>Returns 0.0 the value for the parameter at <paramref name="index" />.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.SetParameter(System.Int32,System.Single)">
+            <summary>
+Called by the host to assign a new <paramref name="value" /> to the parameter at <paramref name="index" />.
+</summary>
+            <param name="index">A zero-base index into the parameters collection.</param>
+            <param name="value">The new value for the parameter.</param>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.ProcessReplacing(Jacobi.Vst.Core.VstAudioPrecisionBuffer[],Jacobi.Vst.Core.VstAudioPrecisionBuffer[])">
+            <summary>
+Called by the host once every cycle to process incoming audio as well as output audio.
+</summary>
+            <param name="inputs">An array with audio input buffers.</param>
+            <param name="outputs">An array with audio output buffers.</param>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl.ProcessReplacing(Jacobi.Vst.Core.VstAudioBuffer[],Jacobi.Vst.Core.VstAudioBuffer[])">
+            <summary>
+Called by the host once every cycle to process incoming audio as well as output audio.
+</summary>
+            <param name="inputs">An array with audio input buffers.</param>
+            <param name="outputs">An array with audio output buffers.</param>
+        </member>
+        <member name="T:Jacobi.Vst.Host.Interop.VstPluginCommandsImpl">
+            <summary>
+The VstPluginCommandStub class implements the <see cref="T:Jacobi.Vst.Core.Host.IVstPluginCommandStub" />
+interface that is called by the host to access the Plugin.
+</summary>
+            <remarks>
+The class also implements the <see cref="T:Jacobi.Vst.Core.Legacy.IVstPluginCommandsLegacy20" /> 
+interface for legacy method support.
+</remarks>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.MemoryTracker.ClearAll">
+            <summary>
+Deletes all 'pointers' tracked.
+</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.MemoryTracker.RegisterArray(System.Void*)">
+            <summary>
+Registers an <paramref name="arrayObject" /> that is an array.
+</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.MemoryTracker.RegisterObject(System.Void*)">
+            <summary>
+Registers a <paramref name="memoryObject" /> that is not an array.
+</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.MemoryTracker.#ctor">
+            <summary>
+Constructs a new instance.
+</summary>
+        </member>
+        <member name="T:Jacobi.Vst.Interop.MemoryTracker">
+            <summary>
+The MemoryTracker class maintains a list of native allocated objects that can be deleted (freed) at another time.
+</summary>
+            <remarks>Is a managed class because it is used as a member of a managed class.</remarks>
+        </member>
+        <member name="T:Bootstrapper">
+            <summary>
+The Bootstrapper class loads the managed plugin assembly.
+</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstManagedPluginContext.Initialize(System.String)">
+            <summary>
+Initializes the PluginContext instance with the plugin pointed to by the <paramref name="pluginPath" />.
+</summary>
+            <param name="pluginPath">An absolute path the the plugin dll (that contains the exported 
+'VSTPluginMain' function). Must not be null or empty.</param>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstManagedPluginContext.#ctor(Jacobi.Vst.Core.Host.IVstHostCommandStub)">
+            <summary>
+Constructs a new uninitialized instance using the <paramref name="hostCmdStub" />.
+</summary>
+            <param name="hostCmdStub">An implementation of the host command stub. Must not be null.</param>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstManagedPluginContext.CreateInternal(System.String,Jacobi.Vst.Core.Host.IVstHostCommandStub)">
+            <summary>
+Constructs a new uninitialized instance using the <paramref name="hostCmdStub" />.
+</summary>
+            <param name="pluginPath">An absolute path the the plugin dll. Must not be null or empty.</param>
+            <param name="hostCmdStub">An implementation of the host command stub. Must not be null.</param>
+            <remarks>Returns null when not successful.</remarks>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstManagedPluginContext.AcceptPluginInfoData(System.Boolean)">
+            <summary>
+Copies the new values provided by the Plugin to the <see cref="P:Jacobi.Vst.Host.Interop.VstPluginContext.PluginInfo" /> property.
+</summary>
+            <param name="raiseEvents">When true the <see cref="E:Jacobi.Vst.Host.Interop.VstPluginContext.PropertyChanged" /> event will be raised for each property that has changed.</param>
+            <remarks>All property names will be prefixed with 'PluginInfo.' to indicate the path to the property.</remarks>
+        </member>
+        <member name="T:Jacobi.Vst.Host.Interop.VstManagedPluginContext">
+            <summary>
+Implements a PluginContext for a Managed Plugin, bypassing the double interop that would occur.
+</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginContext.Uninitialize">
+            <summary>Implemented by derived classes to clean up resources.</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginContext.Initialize(System.String)">
+            <summary>Implemented by derived classes to initialize the instance.</summary>
+            <param name="pluginPath">An absolute path the the plugin dll. Must not be null or empty.</param>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginContext.RaisePropertyChanged(System.String)">
+            <summary>Raises the <see cref="E:Jacobi.Vst.Host.Interop.VstPluginContext.PropertyChanged" /> event for the <paramref name="propName" /> property.</summary>
+            <param name="propName">The name of the property that has changed. Must not be null or empty.</param>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginContext.#ctor(Jacobi.Vst.Core.Host.IVstHostCommandStub)">
+            <summary>Constructor for derived classes.</summary>
+            <param name="hostCmdStub">Reference is stored at the <see cref="P:Jacobi.Vst.Host.Interop.VstPluginContext.HostCommandStub" /> property 
+and its <see cref="P:Jacobi.Vst.Core.Host.IVstHostCommandStub.PluginContext" /> property is set. 
+Must not be null.</param>
+        </member>
+        <member name="F:Jacobi.Vst.Host.Interop.VstPluginContext.PluginPathContextVar">
+            <summary>The key name that stores the path of the plugin dll in the context.</summary>
+        </member>
+        <member name="E:Jacobi.Vst.Host.Interop.VstPluginContext.PropertyChanged">
+            <summary>
+Raised when a property is changed on the plugin context.
+</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginContext.AcceptPluginInfoData(System.Boolean)">
+            <summary>
+Copies the unmanaged property values to the <see cref="P:Jacobi.Vst.Host.Interop.VstPluginContext.PluginInfo" /> properties.
+</summary>
+            <param name="raiseEvents">When true the <see cref="E:Jacobi.Vst.Host.Interop.VstPluginContext.PropertyChanged" /> event 
+is raised for each property that has changed.</param>
+        </member>
+        <member name="P:Jacobi.Vst.Host.Interop.VstPluginContext.PluginInfo">
+            <summary>
+Gets the reference to the plugin info.
+</summary>
+        </member>
+        <member name="P:Jacobi.Vst.Host.Interop.VstPluginContext.PluginCommandStub">
+            <summary>
+Gets the reference to the plugin command stub.
+</summary>
+        </member>
+        <member name="P:Jacobi.Vst.Host.Interop.VstPluginContext.HostCommandStub">
+            <summary>
+Gets the reference to the host command stub passed into the ctor.
+</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginContext.Delete(System.String)">
+            <summary>
+Deletes the <paramref name="keyName" /> property and removes it from the plugin context.
+</summary>
+            <param name="keyName">The name of the key used to identify the property.</param>
+            <remarks>
+                <see cref="T:System.IDisposable" />
+                <i>is</i> called on the property (when implemented).</remarks>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginContext.Remove(System.String)">
+            <summary>
+Removes the <paramref name="keyName" /> property from the plugin context.
+</summary>
+            <param name="keyName">The name of the key used to identify the property.</param>
+            <remarks>
+                <see cref="T:System.IDisposable" /> is <b>NOT</b> called on the property.</remarks>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginContext.Find``1(System.String)">
+            <summary>
+Retrieves the value for the <paramref name="keyName" /> property.
+</summary>
+            <typeparam name="T">The data type of the property.</typeparam>
+            <param name="keyName">The name of the key used to identify the property.</param>
+            <returns>Returns the value of the property identified by <paramref name="keyName" />
+or default(T) when it was not found.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginContext.Set``1(System.String,``0)">
+            <summary>
+Sets a new <paramref name="value" /> for the <paramref name="keyName" /> property.
+</summary>
+            <typeparam name="T">Inferred, no need to specify explicitly.</typeparam>
+            <param name="keyName">The name of the key used to identify the property.</param>
+            <param name="value">The value of the property.</param>
+            <remarks>When an existing value is overwritten the <see cref="E:Jacobi.Vst.Host.Interop.VstPluginContext.PropertyChanged" /> event fires.
+When the <paramref name="value" /> implements <see cref="T:System.IDisposable" /> it is called
+when this instance of the plugin context is disposed.
+</remarks>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginContext.ShellCreate(Jacobi.Vst.Core.Host.IVstHostCommandStub)">
+            <summary>
+Creates a context for s sub-plugin from an *unmanaged* shell plugin (this).
+</summary>
+            <param name="hostCmdStub">A reference to a host supplied implementation of the host command stub. Must not be null.</param>
+            <remarks>The <paramref name="hostCmdStub" />'s GetCurrentPluginID() method MUST return one of the unique plugin IDs that were 
+retrieved by calling the <see cref="M:Jacobi.Vst.Core.IVstPluginCommands23.GetNextPlugin(System.String@)" /> method.</remarks>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstPluginContext.Create(System.String,Jacobi.Vst.Core.Host.IVstHostCommandStub)">
+            <summary>
+Creates a context using the specified <paramref name="pluginPath" /> and <paramref name="hostCmdStub" />.
+</summary>
+            <param name="pluginPath">The full path to a plugin .dll. Must not be null or empty.</param>
+            <param name="hostCmdStub">A reference to a host supplied implementation of the host command stub. Must not be null.</param>
+            <remarks>Note that when the <paramref name="hostCmdStub" /> implements <see cref="T:System.IDisposable" /> 
+it is also disposed when this instance of the plugin context is disposed.</remarks>
+            <exception cref="T:System.IO.FileNotFoundException">Thrown when the file specified in 
+<paramref name="pluginPath" /> does not exist.</exception>
+            <exception cref="T:System.ArgumentException">Thrown when the library cannot be opened.</exception>
+            <exception cref="T:System.EntryPointNotFoundException">Thrown when the library does not expose a 
+<c>VSTPluginMain</c> exported function.</exception>
+            <exception cref="T:System.OperationCanceledException">Thrown when the library does not return 
+an ::EAffect pointer from its exported main function.</exception>
+            <exception cref="T:System.NotSupportedException">Thrown when the library does not specify the correct magic number
+in the ::EAffect structure.</exception>
+        </member>
+        <member name="T:Jacobi.Vst.Host.Interop.VstPluginContext">
+            <summary>
+The VstPluginContext class represents a VST Plugin for the host.
+</summary>
+            <remarks>
+The VstPluginContext can only be created using the static 
+<see cref="M:Jacobi.Vst.Host.Interop.VstPluginContext.Create(System.String,Jacobi.Vst.Core.Host.IVstHostCommandStub)" /> 
+factory method. The method accepts the path to the plugin and an
+implementation of the <see cref="T:Jacobi.Vst.Core.Host.IVstHostCommandStub" />
+interface.
+Note that <c>Open</c> is not called on the Plugin by the context but it does call 
+Close on the plugin when the context is disposed.
+</remarks>
+        </member>
+        <member name="P:Jacobi.Vst.Host.Interop.VstAudioPrecisionBufferManager.BufferSize">
+            <summary>Gets the size of a single buffer.</summary>
+        </member>
+        <member name="P:Jacobi.Vst.Host.Interop.VstAudioPrecisionBufferManager.BufferCount">
+            <summary>Gets the number of buffers.</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstAudioPrecisionBufferManager.ClearAllBuffers">
+            <summary>Clears all buffers this instance manages.</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstAudioPrecisionBufferManager.ClearBuffer(Jacobi.Vst.Core.VstAudioPrecisionBuffer)">
+            <summary>Clears (set all values to 0.0) a single buffer.</summary>
+            <param name="buffer">The buffer to be cleared. Must not be null.</param>
+        </member>
+        <member name="P:Jacobi.Vst.Host.Interop.VstAudioPrecisionBufferManager.Buffers">
+            <summary>Retrieves the buffers objects, one for each buffer.</summary>
+            <returns>Returns an enumerable of <see cref="T:Jacobi.Vst.Core.VstAudioPrecisionBuffer" /> instances.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstAudioPrecisionBufferManager.Dispose">
+            <summary>Disposes the instance and free's the unmanaged memory.</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstAudioPrecisionBufferManager.#ctor(System.Int32,System.Int32)">
+            <summary>Constructs a new instance for the specified number and size of buffers.</summary>
+            <param name="bufferCount">The number of buffers.</param>
+            <param name="bufferSize">The size of a single buffer.</param>
+        </member>
+        <member name="T:Jacobi.Vst.Host.Interop.VstAudioPrecisionBufferManager">
+            <summary>
+The VstAudioPrecisionBufferManager class manages one continues block of unmanaged memory
+to service a number of audio buffers.
+</summary>
+            <remarks>The class is instantiated specifying the number and size of buffers that 
+can be accessed using the <see cref="P:Jacobi.Vst.Host.Interop.VstAudioPrecisionBufferManager.Buffers" /> property. The life time of the 
+unmanaged memory that backs up the buffers is coupled to the life time of the
+VstAudioPrecisionBufferManager instance. Calling the <see cref="M:Jacobi.Vst.Host.Interop.VstAudioPrecisionBufferManager.Dispose" /> method will free
+the unmanaged memory.</remarks>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstHostCommandProxy.Dispatch(System.Int32,System.Int32,System.Int64,System.Void*,System.Single)">
+            <summary>Dispatches the <paramref name="opcode" /> and its parameters to one of the methods on the
+<see cref="T:Jacobi.Vst.Core.Host.IVstHostCommandStub" /> interface.</summary>
+            <param name="opcode">Indicates the type of message.</param>
+            <param name="index">Optional argument.</param>
+            <param name="value">Optional argument.</param>
+            <param name="ptr">Optional argument.</param>
+            <param name="opt">Optional argument.</param>
+            <returns>Returns the return value of the method called on the 
+<see cref="T:Jacobi.Vst.Core.Host.IVstHostCommandStub" /> interface.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstHostCommandProxy.Finalize">
+            <summary>Disposes unmanaged resources.</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstHostCommandProxy.Dispose">
+            <summary>Disposes managed resources and calls the finalizer.</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Host.Interop.VstHostCommandProxy.#ctor(Jacobi.Vst.Core.Host.IVstHostCommandStub)">
+            <summary>Construcs a new instance based on a reference to the <paramref name="hostCmdStub" />.</summary>
+            <param name="hostCmdStub">Must not be null.</param>
+        </member>
+        <member name="T:Jacobi.Vst.Host.Interop.VstHostCommandProxy">
+            <summary>
+The VstHostCommandProxy class dispatches incoming requests from the plugin to an implementation of
+the <see cref="T:Jacobi.Vst.Core.Host.IVstHostCommandStub" /> interface.
+</summary>
+        </member>
+    </members>
+</doc>
