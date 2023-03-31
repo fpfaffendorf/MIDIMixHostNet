@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Import Project="$(NuGetPackageRoot)vst.net2-host\2.1.0\build\VST.NET2-Host.targets" Condition="Exists('$(NuGetPackageRoot)vst.net2-host\2.1.0\build\VST.NET2-Host.targets')" />
+    <Import Project="$(NuGetPackageRoot)melanchall.drywetmidi\6.1.4\build\Melanchall.DryWetMidi.targets" Condition="Exists('$(NuGetPackageRoot)melanchall.drywetmidi\6.1.4\build\Melanchall.DryWetMidi.targets')" />
+  </ImportGroup>
+</Project>
